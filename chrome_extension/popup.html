@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 350px;
+      padding: 15px;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #0f2027, #203a43);
+      color: white;
+      margin: 0;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+    
+    .status {
+      background: rgba(46, 204, 113, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border-left: 4px solid #2ecc71;
+    }
+    
+    .warning {
+      background: rgba(231, 76, 60, 0.2);
+      border-left-color: #e74c3c;
+    }
+    
+    .btn {
+      background: #00cec9;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+      font-size: 12px;
+    }
+    
+    .btn:hover {
+      background: #00a8a3;
+    }
+    
+    .btn-danger {
+      background: #e74c3c;
+    }
+    
+    .btn-danger:hover {
+      background: #c0392b;
+    }
+    
+    .whitelist {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #34495e;
+    }
+    
+    .domain-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h3>🛡️ Phishing Detector</h3>
+  </div>
+  
+  <div id="status" class="status">
+    <strong>Status:</strong> <span id="statusText">Analyzing...</span>
+  </div>
+  
+  <div>
+    <button id="trustSite" class="btn">✅ Trust This Site</button>
+    <button id="reportSite" class="btn btn-danger">🚨 Report Phishing</button>
+  </div>
+  
+  <div class="whitelist">
+    <h4>Trusted Sites</h4>
+    <div id="whitelistItems"></div>
+    <button id="clearWhitelist" class="btn btn-danger">Clear All</button>
+  </div>
+  
+  <script src="popup.js"></script>
+</body>
+</html>

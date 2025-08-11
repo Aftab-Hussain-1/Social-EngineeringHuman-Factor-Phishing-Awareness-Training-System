@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block title %}Employee Behavior Reports{% endblock %}
+
+{% block content %}
+<style>
+  .reports-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .page-title {
+    font-size: 2.2em;
+    margin: 0;
+    letter-spacing: 0.5px;
+  }
+
+  .page-subtitle {
+    margin-top: 0.5rem;
+    opacity: 0.9;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .stat-number {
+    font-size: 2em;
+    font-weight: bold;
+    color: #2a5298;
+  }
+
+  .stat-label {
+    margin-top: 0.5rem;
+    color: #666;
+  }
+
+  .reports-table {
+    width: 100%;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    overflow: hidden;
+  }
+
+  .reports-table th,
+  .reports-table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+
+  .reports-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2a5298;
+  }
+
+  .reports-table tr:hover {
+    background: #f8f9fa;
+  }
+
+  .risk-badge {
+    padding: 0.4rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+
+  .risk-high {
+    background: #fee2e2;
+    color: #dc2626;
+  }
+
+  .risk-medium {
+    background: #fef3c7;
+    color: #d97706;
+  }
+
+  .risk-low {
+    background: #dcfce7;
+    color: #16a34a;
+  }
+
+  .view-btn {
+    background: #2a5298;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    text-decoration: none;
+    font-size: 0.9em;
+    transition: background 0.3s;
+  }
+
+  .view-btn:hover {
+    background: #1e3c72;
+  }
+
+  .pagination {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .pagination a,
+  .pagination span {
+    padding: 0.5rem 1rem;
+    margin: 0 0.25rem;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #2a5298;
+    background: white;
+  }
+
+  .pagination a:hover {
+    background: #f8f9fa;
+  }
+
+  .pagination .active {
+    background: #2a5298;
+    color: white;
+  }
+
+  .pagination .disabled {
+    color: #ccc;
+    pointer-events: none;
+  }
+</style>
+
+<div class="reports-container">
+  <div class="page-header">
+    <h1 class="page-title">📊 Employee Behavior Reports</h1>
+    <p class="page-subtitle">Monitor and analyze employee behavior assessments</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-number">{{ reports.total }}</div>
+      <div class="stat-label">Total Reports</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ reports.items | selectattr('overall_rating', 'equalto', 'Poor') | list | length }}</div>
+      <div class="stat-label">High Risk</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ reports.items | selectattr('overall_rating', 'equalto', 'Fair') | list | length }}</div>
+      <div class="stat-label">Medium Risk</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">{{ (reports.items | selectattr('overall_rating', 'equalto', 'Good') | list | length) + (reports.items | selectattr('overall_rating', 'equalto', 'Excellent') | list | length) }}</div>
+      <div class="stat-label">Low Risk</div>
+    </div>
+  </div>
+
+  <div class="reports-table">
+    <table style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Employee</th>
+          <th>Date</th>
+          <th>Risk Level</th>
+          <th>Assessment</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for report in reports.items %}
+        <tr>
+          <td>{{ report.user.username }}</td>
+          <td>{{ report.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+          <td>
+            {% if report.overall_rating == 'Poor' %}
+              <span class="risk-badge risk-high">High Risk</span>
+            {% elif report.overall_rating == 'Fair' %}
+              <span class="risk-badge risk-medium">Medium Risk</span>
+            {% else %}
+              <span class="risk-badge risk-low">Low Risk</span>
+            {% endif %}
+          </td>
+          <td style="max-width: 300px;">
+            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ report.behavior_assessment[:100] }}...
+            </div>
+          </td>
+          <td>
+            <a href="{{ url_for('main.view_behavior_report', report_id=report.id) }}" class="view-btn">View Details</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% if reports.pages > 1 %}
+  <div class="pagination">
+    {% if reports.has_prev %}
+      <a href="{{ url_for('main.admin_behavior_reports', page=1) }}">⏮️ First</a>
+      <a href="{{ url_for('main.admin_behavior_reports', page=reports.prev_num) }}">⬅️ Previous</a>
+    {% else %}
+      <span class="disabled">⏮️ First</span>
+      <span class="disabled">⬅️ Previous</span>
+    {% endif %}
+
+    {% for page_num in reports.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if reports.page == page_num %}
+          <span class="active">{{ page_num }}</span>
+        {% else %}
+          <a href="{{ url_for('main.admin_behavior_reports', page=page_num) }}">{{ page_num }}</a>
+        {% endif %}
+      {% else %}
+        <span class="disabled">...</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if reports.has_next %}
+      <a href="{{ url_for('main.admin_behavior_reports', page=reports.next_num) }}">Next ➡️</a>
+      <a href="{{ url_for('main.admin_behavior_reports', page=reports.pages) }}">Last ⏭️</a>
+    {% else %}
+      <span class="disabled">Next ➡️</span>
+      <span class="disabled">Last ⏭️</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}Employee Risk Calculator{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+      color: #ecf0f1;
+    }
+
+    /* ✅ Perfected Header Styling */
+    nav {
+      background: rgba(45, 52, 54, 0.6);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      padding: 14px 32px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    nav a {
+      color: #00cec9;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 10px 16px;
+      border-radius: 8px;
+      transition: background-color 0.3s, color 0.3s;
+      font-size: 16px;
+    }
+
+    nav a:hover {
+      background-color: #00cec9;
+      color: #2d3436;
+      box-shadow: 0 4px 12px rgba(0, 206, 201, 0.4);
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+        gap: 12px;
+      }
+
+      nav a {
+        padding: 8px 12px;
+        font-size: 15px;
+      }
+    }
+
+    /* Main container */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      color: white;
+    }
+
+    /* Flash messages */
+    .flash {
+      padding: 12px 18px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .flash.success {
+      background-color: #2ecc71;
+      color: white;
+    }
+
+    .flash.error {
+      background-color: #e74c3c;
+      color: white;
+    }
+
+    .flash.warning {
+      background-color: #f39c12;
+      color: white;
+    }
+
+    .flash.info {
+      background-color: #3498db;
+      color: white;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="/">Home</a>
+    <a href="/about">About</a>
+    <a href="/contact">Contact</a>
+    <a href="/extension">🛡️ Extension</a>
+    {% if current_user.is_authenticated %}
+    <a href="/dashboard">Dashboard</a>
+    <a href="/quiz">Take Quiz</a>
+    {% if current_user.is_admin %}
+    <a href="/admin/dashboard">📊 Admin Dashboard</a>
+    <a href="/admin/questions">⚙️ Manage Questions</a>
+    <a href="/admin/users">👥 Manage Users</a>
+    <a href="/admin/phishing-reports">🚨 Phishing Reports</a>
+    <a href="/admin/risk-behaviors">⚠️ Risk Behaviors</a>
+    {% endif %}
+    <a href="/logout">Logout</a>
+    {% else %}
+    <a href="/login">Login / Register</a>
+    {% endif %}
+  </nav>
+
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+    <div class="flash {{ category }}">{{ message }}</div>
+    {% endfor %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+
+</body>
+
+</html>

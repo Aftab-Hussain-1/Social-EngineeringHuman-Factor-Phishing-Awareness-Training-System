@@ -1,0 +1,342 @@
+
+{% extends "base.html" %}
+{% block title %}Edit Question - Admin Panel{% endblock %}
+
+{% block content %}
+<style>
+  .edit-question-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .edit-header {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.3);
+  }
+
+  .edit-title {
+    font-size: 2.2em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .edit-subtitle {
+    font-size: 1.1em;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .form-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(15, 32, 39, 0.15);
+    border: 1px solid rgba(0, 206, 201, 0.1);
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 15px 18px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 1em;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+    background: #fff;
+    color: #2c3e50;
+  }
+
+  .form-textarea {
+    min-height: 120px;
+    resize: vertical;
+    font-family: inherit;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #00cec9;
+    box-shadow: 0 0 0 3px rgba(0, 206, 201, 0.1);
+    background: #fff;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+  }
+
+  .option-group {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 12px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+  }
+
+  .option-group:hover {
+    border-color: #00cec9;
+    background: rgba(0, 206, 201, 0.05);
+  }
+
+  .option-label {
+    font-weight: 600;
+    color: #00cec9;
+    margin-bottom: 8px;
+    font-size: 1em;
+  }
+
+  .correct-answer-section {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    color: white;
+  }
+
+  .correct-answer-section .form-label {
+    color: white;
+    margin-bottom: 10px;
+  }
+
+  .correct-answer-section .form-input {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    color: white;
+  }
+
+  .correct-answer-section .form-input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+
+  .correct-answer-section .form-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #00cec9;
+  }
+
+  .submit-section {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+  }
+
+  .submit-button {
+    background: linear-gradient(135deg, #00cec9, #0984e3);
+    color: white;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 206, 201, 0.4);
+  }
+
+  .cancel-button {
+    background: #6c757d;
+    color: white;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .cancel-button:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(108, 117, 125, 0.3);
+    color: white;
+    text-decoration: none;
+  }
+
+  .help-text {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-top: 5px;
+    font-style: italic;
+  }
+
+  @media (max-width: 768px) {
+    .edit-question-container {
+      padding: 15px;
+    }
+    
+    .form-card {
+      padding: 30px 20px;
+    }
+    
+    .options-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .submit-section {
+      flex-direction: column;
+      align-items: center;
+    }
+    
+    .submit-button, .cancel-button {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+</style>
+
+<div class="edit-question-container">
+  <div class="edit-header">
+    <h1 class="edit-title">✏️ Edit Question</h1>
+    <p class="edit-subtitle">Modify the cybersecurity assessment question</p>
+  </div>
+
+  <div class="form-card">
+    <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      
+      <!-- Question Text -->
+      <div class="form-group">
+        <label class="form-label" for="question_text">
+          📝 Question Text
+        </label>
+        <textarea 
+          class="form-textarea" 
+          id="question_text"
+          name="text" 
+          required 
+          placeholder="Enter your cybersecurity question here..."
+        >{{ question.text }}</textarea>
+        <div class="help-text">Write a clear and concise question about cybersecurity practices</div>
+      </div>
+
+      <!-- Answer Options -->
+      <div class="form-group">
+        <label class="form-label">🎯 Answer Options</label>
+        <div class="options-grid">
+          <div class="option-group">
+            <div class="option-label">Option A</div>
+            <input 
+              class="form-input" 
+              name="option_a" 
+              value="{{ question.option_a }}" 
+              required 
+              placeholder="First answer choice"
+            >
+          </div>
+          
+          <div class="option-group">
+            <div class="option-label">Option B</div>
+            <input 
+              class="form-input" 
+              name="option_b" 
+              value="{{ question.option_b }}" 
+              required 
+              placeholder="Second answer choice"
+            >
+          </div>
+          
+          <div class="option-group">
+            <div class="option-label">Option C</div>
+            <input 
+              class="form-input" 
+              name="option_c" 
+              value="{{ question.option_c }}" 
+              required 
+              placeholder="Third answer choice"
+            >
+          </div>
+          
+          <div class="option-group">
+            <div class="option-label">Option D</div>
+            <input 
+              class="form-input" 
+              name="option_d" 
+              value="{{ question.option_d }}" 
+              required 
+              placeholder="Fourth answer choice"
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Correct Answer -->
+      <div class="correct-answer-section">
+        <label class="form-label" for="correct_option">
+          ✅ Correct Answer
+        </label>
+        <input 
+          class="form-input" 
+          id="correct_option"
+          name="correct_option" 
+          value="{{ question.correct_option }}" 
+          maxlength="1" 
+          required 
+          placeholder="Enter A, B, C, or D"
+          pattern="[ABCDabcd]"
+          style="text-transform: uppercase;"
+        >
+        <div class="help-text" style="color: rgba(255, 255, 255, 0.8);">
+          Enter the letter (A, B, C, or D) corresponding to the correct answer
+        </div>
+      </div>
+
+      <!-- Submit Buttons -->
+      <div class="submit-section">
+        <button type="submit" class="submit-button">
+          💾 Update Question
+        </button>
+        <a href="/admin/questions" class="cancel-button">
+          ❌ Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+// Auto-uppercase the correct option field
+document.getElementById('correct_option').addEventListener('input', function(e) {
+  e.target.value = e.target.value.toUpperCase();
+});
+
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+  const correctOption = document.getElementById('correct_option').value.toUpperCase();
+  if (!['A', 'B', 'C', 'D'].includes(correctOption)) {
+    e.preventDefault();
+    alert('Please enter A, B, C, or D for the correct answer.');
+    document.getElementById('correct_option').focus();
+  }
+});
+</script>
+{% endblock %}

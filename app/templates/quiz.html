@@ -1,0 +1,212 @@
+
+{% extends "base.html" %}
+{% block title %}Cybersecurity Assessment - Employee Risk Calculator{% endblock %}
+{% block content %}
+<style>
+  .quiz-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: white;
+  }
+
+  .quiz-header {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.3);
+  }
+
+  .quiz-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .quiz-subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .question-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.15);
+    border: 1px solid rgba(0, 206, 201, 0.1);
+  }
+
+  .question-number {
+    color: #00cec9;
+    font-weight: 700;
+    font-size: 1.1em;
+    margin-bottom: 15px;
+  }
+
+  .question-text {
+    font-size: 1.3em;
+    color: #2c3e50;
+    margin-bottom: 25px;
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .options-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .option-item {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .option-item:hover {
+    border-color: #00cec9;
+    background: rgba(0, 206, 201, 0.05);
+  }
+
+  .option-item input[type="radio"] {
+    margin-right: 15px;
+    transform: scale(1.2);
+    accent-color: #00cec9;
+  }
+
+  .option-item label {
+    color: #2c3e50;
+    font-size: 1.1em;
+    cursor: pointer;
+    flex: 1;
+  }
+
+  .submit-section {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin-top: 40px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.2);
+  }
+
+  .submit-button {
+    background: #00cec9;
+    color: white;
+    padding: 18px 40px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .submit-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 206, 201, 0.3);
+  }
+
+  .quiz-info {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    color: white;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.2);
+  }
+
+  .quiz-info h3 {
+    color: white;
+    margin-bottom: 15px;
+  }
+
+  .quiz-info p {
+    color: rgba(255, 255, 255, 0.9);
+    margin: 5px 0;
+  }
+
+  @media (max-width: 768px) {
+    .quiz-title {
+      font-size: 2em;
+    }
+    
+    .question-container {
+      padding: 30px 20px;
+    }
+    
+    .option-item {
+      padding: 12px 15px;
+    }
+  }
+</style>
+
+<div class="quiz-container">
+  <div class="quiz-header">
+    <h1 class="quiz-title">🧠 Cybersecurity Assessment</h1>
+    <p class="quiz-subtitle">Test your knowledge and identify potential security risks</p>
+  </div>
+
+  <div class="quiz-info">
+    <h3>📋 Assessment Instructions</h3>
+    <p>• Answer all questions to the best of your ability</p>
+    <p>• Choose the most appropriate answer for each question</p>
+    <p>• Your results will help identify areas for improvement</p>
+    <p>• This assessment contains {{ questions|length }} questions</p>
+  </div>
+
+  <form method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+    
+    {% for question in questions %}
+    <div class="question-container">
+      <div class="question-number">Question {{ loop.index }} of {{ questions|length }}</div>
+      <div class="question-text">{{ question.text }}</div>
+      
+      <div class="options-container">
+        <div class="option-item">
+          <input type="radio" id="q{{ question.id }}_a" name="{{ question.id }}" value="A" required>
+          <label for="q{{ question.id }}_a">A) {{ question.option_a }}</label>
+        </div>
+        
+        <div class="option-item">
+          <input type="radio" id="q{{ question.id }}_b" name="{{ question.id }}" value="B" required>
+          <label for="q{{ question.id }}_b">B) {{ question.option_b }}</label>
+        </div>
+        
+        <div class="option-item">
+          <input type="radio" id="q{{ question.id }}_c" name="{{ question.id }}" value="C" required>
+          <label for="q{{ question.id }}_c">C) {{ question.option_c }}</label>
+        </div>
+        
+        <div class="option-item">
+          <input type="radio" id="q{{ question.id }}_d" name="{{ question.id }}" value="D" required>
+          <label for="q{{ question.id }}_d">D) {{ question.option_d }}</label>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <div class="submit-section">
+      <h3 style="color: white; margin-bottom: 20px;">Ready to Submit?</h3>
+      <p style="color: rgba(255, 255, 255, 0.9); margin-bottom: 30px;">
+        Make sure you've answered all questions before submitting your assessment.
+      </p>
+      <button type="submit" class="submit-button">🚀 Submit Assessment</button>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,205 @@
+
+{% extends "base.html" %}
+{% block title %}Chrome Extension Guide - Employee Risk Calculator{% endblock %}
+{% block content %}
+<style>
+  .guide-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+  }
+
+  .guide-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .guide-title {
+    font-size: 2.5em;
+    color: #00cec9;
+    margin-bottom: 20px;
+  }
+
+  .step-container {
+    background: rgba(45, 52, 54, 0.8);
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    border-left: 5px solid #00cec9;
+  }
+
+  .step-number {
+    background: #00cec9;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    margin-right: 15px;
+  }
+
+  .step-title {
+    color: #00cec9;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+  }
+
+  .step-content {
+    color: #ecf0f1;
+    line-height: 1.6;
+  }
+
+  .download-section {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .download-btn {
+    background: #00cec9;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    margin: 10px;
+    transition: all 0.3s ease;
+  }
+
+  .download-btn:hover {
+    background: #00a8a3;
+    transform: translateY(-2px);
+  }
+
+  .feature-list {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 25px;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+
+  .feature-list h4 {
+    color: #00cec9;
+    margin-bottom: 15px;
+  }
+
+  .feature-list ul {
+    list-style: none;
+    padding: 0;
+  }
+
+  .feature-list li {
+    color: #ecf0f1;
+    padding: 5px 0;
+    padding-left: 25px;
+    position: relative;
+  }
+
+  .feature-list li:before {
+    content: "✓";
+    color: #2ecc71;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+  }
+</style>
+
+<div class="guide-container">
+  <div class="guide-header">
+    <h1 class="guide-title">🛡️ Chrome Extension Setup</h1>
+    <p style="color: #ecf0f1; font-size: 1.2em;">Protect yourself from phishing attacks with our advanced detection extension</p>
+  </div>
+
+  <div class="download-section">
+    <h2 style="color: white; margin-bottom: 20px;">Download Extension Files</h2>
+    <p style="color: rgba(255,255,255,0.9); margin-bottom: 30px;">
+      Download the extension files and follow the installation steps below
+    </p>
+    <a href="/download-extension" class="download-btn">📥 Download Extension</a>
+  </div>
+
+  <div class="step-container">
+    <div style="display: flex; align-items: flex-start;">
+      <span class="step-number">1</span>
+      <div>
+        <h3 class="step-title">Download & Extract</h3>
+        <div class="step-content">
+          <p>Download the extension files using the button above and extract the ZIP file to a folder on your computer.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-container">
+    <div style="display: flex; align-items: flex-start;">
+      <span class="step-number">2</span>
+      <div>
+        <h3 class="step-title">Open Chrome Extensions</h3>
+        <div class="step-content">
+          <p>Open Google Chrome and navigate to <strong>chrome://extensions/</strong> or go to Menu → More Tools → Extensions.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-container">
+    <div style="display: flex; align-items: flex-start;">
+      <span class="step-number">3</span>
+      <div>
+        <h3 class="step-title">Enable Developer Mode</h3>
+        <div class="step-content">
+          <p>Toggle the "Developer mode" switch in the top-right corner of the Extensions page.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-container">
+    <div style="display: flex; align-items: flex-start;">
+      <span class="step-number">4</span>
+      <div>
+        <h3 class="step-title">Load Extension</h3>
+        <div class="step-content">
+          <p>Click "Load unpacked" and select the folder where you extracted the extension files.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="step-container">
+    <div style="display: flex; align-items: flex-start;">
+      <span class="step-number">5</span>
+      <div>
+        <h3 class="step-title">Verify Installation</h3>
+        <div class="step-content">
+          <p>You should see the 🛡️ Phishing Detector extension in your extensions list and toolbar. Click on it to configure settings.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="feature-list">
+    <h4>🚀 Extension Features</h4>
+    <ul>
+      <li>Real-time detection of fake login pages</li>
+      <li>Domain and branding mismatch alerts</li>
+      <li>Whitelist management for trusted sites</li>
+      <li>Phishing site reporting</li>
+      <li>Automatic blocking of high-risk form submissions</li>
+      <li>Integration with your risk assessment profile</li>
+    </ul>
+  </div>
+
+  <div style="text-align: center; margin-top: 40px;">
+    <p style="color: #ecf0f1;">Need help? <a href="/contact" style="color: #00cec9;">Contact our support team</a></p>
+  </div>
+</div>
+{% endblock %}

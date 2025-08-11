@@ -1,0 +1,417 @@
+{% extends "base.html" %}
+{% block title %}Contact Us - Employee Risk Calculator{% endblock %}
+{% block content %}
+<style>
+  .contact-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .hero-section {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 40px;
+    border-radius: 20px;
+    margin-bottom: 60px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-title {
+    font-size: 3em;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  }
+
+  .hero-subtitle {
+    font-size: 1.3em;
+    opacity: 0.95;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-bottom: 60px;
+  }
+
+  .contact-form {
+    background: white;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .contact-info {
+    background: white;
+    padding: 40px 35px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+
+  .section-title {
+    font-size: 2.2em;
+    color: #00cec9;
+    margin-bottom: 30px;
+    font-weight: 600;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+  }
+
+  .form-group input,
+  .form-group textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  }
+
+  .form-group textarea {
+    min-height: 120px;
+    resize: vertical;
+  }
+
+  .contact-button {
+    background: linear-gradient(135deg, #00cec9, #203a43);
+    color: white;
+    padding: 16px 35px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .contact-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border-left: 5px solid #00cec9;
+  }
+
+  .contact-icon {
+    font-size: 2.5em;
+    color: #667eea;
+    margin-right: 20px;
+    min-width: 60px;
+  }
+
+  .contact-details h4 {
+    color: #2c3e50;
+    margin: 0 0 8px 0;
+    font-size: 1.2em;
+    font-weight: 600;
+  }
+
+  .contact-details p {
+    color: #7f8c8d;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .contact-details a {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .contact-details a:hover {
+    text-decoration: underline;
+  }
+
+  .faq-section {
+    background: white;
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+
+  .faq-item {
+    margin-bottom: 25px;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    border-left: 5px solid #00cec9;
+  }
+
+  .faq-question {
+    font-size: 1.2em;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+
+  .faq-answer {
+    color: #7f8c8d;
+    line-height: 1.6;
+  }
+
+  .support-hours {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin: 40px 0;
+  }
+
+  .support-hours h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+  }
+
+  .support-hours p {
+    color: #7f8c8d;
+    font-size: 1.1em;
+    margin: 10px 0;
+  }
+
+  @media (max-width: 768px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    .contact-form,
+    .contact-info {
+      padding: 25px 20px;
+    }
+
+    .hero-title {
+      font-size: 2.2em;
+    }
+
+    .contact-item {
+      flex-direction: column;
+      text-align: center;
+      padding: 15px;
+    }
+
+    .contact-icon {
+      margin-right: 0;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      padding: 12px 14px;
+    }
+  }
+</style>
+
+<div class="contact-container">
+  <!-- Hero Section -->
+  <div class="hero-section">
+    <div class="hero-content">
+      <h1 class="hero-title">💬 Contact Us</h1>
+      <p class="hero-subtitle">
+        Have questions about our cybersecurity risk assessment platform? We're here to help you strengthen your organization's security posture.
+      </p>
+    </div>
+  </div>
+
+  <!-- Contact Form and Info -->
+  <div class="contact-grid">
+    <!-- Contact Form -->
+    <div class="contact-form">
+      <h2 class="section-title">Send us a Message</h2>
+      <form method="POST" action="/contact">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input type="text" id="name" name="name" required placeholder="Enter your full name">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" name="email" required placeholder="Enter your email address">
+        </div>
+
+        <div class="form-group">
+          <label for="organization">Organization</label>
+          <input type="text" id="organization" name="organization" placeholder="Your company or organization">
+        </div>
+
+        <div class="form-group">
+          <label for="subject">Subject *</label>
+          <input type="text" id="subject" name="subject" required placeholder="What can we help you with?">
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message *</label>
+          <textarea id="message" name="message" required placeholder="Please provide details about your inquiry..."></textarea>
+        </div>
+
+        <button type="submit" class="contact-button">📤 Send Message</button>
+      </form>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="contact-info">
+      <h2 class="section-title">Get in Touch</h2>
+
+      <div class="contact-item">
+        <div class="contact-icon">📧</div>
+        <div class="contact-details">
+          <h4>Email Support</h4>
+          <p><a href="mailto:support@employeerisk.com">support@employeerisk.com</a></p>
+          <p>We typically respond within 24 hours</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div class="contact-details">
+          <h4>Phone Support</h4>
+          <p><a href="tel:+1-555-SECURITY">+1 (555) SECURITY</a></p>
+          <p>Monday - Friday, 9 AM - 6 PM EST</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">🏢</div>
+        <div class="contact-details">
+          <h4>Business Inquiries</h4>
+          <p><a href="mailto:business@employeerisk.com">business@employeerisk.com</a></p>
+          <p>For enterprise solutions and partnerships</p>
+        </div>
+      </div>
+
+      <div class="contact-item">
+        <div class="contact-icon">🚨</div>
+        <div class="contact-details">
+          <h4>Technical Support</h4>
+          <p><a href="mailto:tech@employeerisk.com">tech@employeerisk.com</a></p>
+          <p>For platform issues and technical assistance</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Support Hours -->
+  <div class="support-hours">
+    <h3>🕒 Support Hours</h3>
+    <p><strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM (EST)</p>
+    <p><strong>Saturday:</strong> 10:00 AM - 4:00 PM (EST)</p>
+    <p><strong>Sunday:</strong> Closed</p>
+    <p style="margin-top: 20px; font-style: italic;">Emergency security issues are handled 24/7</p>
+  </div>
+
+  <!-- FAQ Section -->
+  <div class="faq-section">
+    <h2 class="section-title">Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ How do I get started with the platform?</div>
+      <div class="faq-answer">Simply register for a free account and you can immediately start taking cybersecurity assessments. No credit card required for initial access.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ Is my data secure on your platform?</div>
+      <div class="faq-answer">Absolutely. We implement enterprise-grade security measures including encrypted data transmission, secure session management, CSRF protection, and regular security audits.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ Can I export my quiz results?</div>
+      <div class="faq-answer">Yes! Users can export their individual quiz results in CSV format. Administrators have access to organization-wide reporting and analytics.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ Do you offer enterprise solutions?</div>
+      <div class="faq-answer">Yes, we provide custom enterprise solutions including white-label options, advanced analytics, custom question sets, and dedicated support. Contact our business team for details.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ How often should employees take assessments?</div>
+      <div class="faq-answer">We recommend quarterly assessments for most organizations, with additional assessments after security incidents or major policy changes. Our platform tracks improvement over time.</div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question">❓ What topics are covered in the assessments?</div>
+      <div class="faq-answer">Our assessments cover phishing awareness, password security, social engineering, data protection, incident response, mobile security, and other critical cybersecurity topics.</div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="hero-section" style="margin-top: 60px; padding: 50px 40px;">
+    <div class="hero-content">
+      <h2 style="font-size: 2.2em; margin-bottom: 20px;">Ready to Strengthen Your Security?</h2>
+      <p style="font-size: 1.1em; margin-bottom: 30px; opacity: 0.9;">
+        Join thousands of organizations using our platform to build stronger cybersecurity awareness.
+      </p>
+      {% if not current_user.is_authenticated %}
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        <a href="/register" style="display: inline-block; background: rgba(255,255,255,0.95); color: #667eea; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1em;">🚀 Start Free Trial</a>
+        <a href="/about" style="display: inline-block; background: transparent; color: white; border: 2px solid rgba(255,255,255,0.8); padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1em;">📋 Learn More</a>
+      </div>
+      {% else %}
+      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+        <a href="/dashboard" style="display: inline-block; background: rgba(255,255,255,0.95); color: #667eea; padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1em;">📊 View Dashboard</a>
+        <a href="/quiz" style="display: inline-block; background: transparent; color: white; border: 2px solid rgba(255,255,255,0.8); padding: 15px 30px; border-radius: 25px; text-decoration: none; font-weight: 600; font-size: 1.1em;">📝 Take Assessment</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+```

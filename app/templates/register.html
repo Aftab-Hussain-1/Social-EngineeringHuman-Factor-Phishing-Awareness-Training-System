@@ -1,0 +1,193 @@
+
+{% extends "base.html" %}
+{% block title %}Register - Employee Risk Calculator{% endblock %}
+{% block content %}
+<style>
+  .register-container {
+    max-width: 500px;
+    margin: 60px auto;
+    padding: 0;
+    color: white;
+  }
+
+  .register-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 50px 40px;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(15, 32, 39, 0.2);
+    border: 1px solid rgba(0, 206, 201, 0.1);
+  }
+
+  .register-header {
+    text-align: center;
+    margin-bottom: 40px;
+  }
+
+  .register-title {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+
+  .register-subtitle {
+    color: #7f8c8d;
+    font-size: 1.1em;
+  }
+
+  .form-group {
+    margin-bottom: 25px;
+  }
+
+  .form-group label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 1.1em;
+  }
+
+  .form-group input {
+    width: 100%;
+    padding: 15px 18px;
+    border: 2px solid #e9ecef;
+    border-radius: 10px;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    border-color: #00cec9;
+    box-shadow: 0 0 0 3px rgba(0, 206, 201, 0.1);
+  }
+
+  .register-button {
+    width: 100%;
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: white;
+    padding: 18px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 25px;
+  }
+
+  .register-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(15, 32, 39, 0.3);
+  }
+
+  .login-link {
+    text-align: center;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 15px;
+    margin-top: 20px;
+  }
+
+  .login-link p {
+    color: #7f8c8d;
+    margin: 0;
+  }
+
+  .login-link a {
+    color: #00cec9;
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+
+  .benefits-section {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 30px;
+    color: white;
+    text-align: center;
+  }
+
+  .benefits-section h3 {
+    color: white;
+    margin-bottom: 20px;
+  }
+
+  .benefits-section ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .benefits-section li {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 5px 0;
+  }
+
+  @media (max-width: 768px) {
+    .register-container {
+      margin: 40px 20px;
+    }
+    
+    .register-card {
+      padding: 40px 30px;
+    }
+    
+    .register-title {
+      font-size: 2em;
+    }
+  }
+</style>
+
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <h1 class="register-title">🚀 Join Us Today</h1>
+      <p class="register-subtitle">Create your account to start your cybersecurity journey</p>
+    </div>
+
+    <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required placeholder="Choose a username">
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" required placeholder="Enter your email">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required placeholder="Create a strong password">
+      </div>
+
+      <button type="submit" class="register-button">🎯 Create Account</button>
+    </form>
+
+    <div class="login-link">
+      <p>Already have an account? <a href="/login">Sign in here</a></p>
+    </div>
+  </div>
+
+  <div class="benefits-section">
+    <h3>🌟 What You'll Get</h3>
+    <ul>
+      <li>📊 Personalized cybersecurity dashboard</li>
+      <li>🧠 Interactive security assessments</li>
+      <li>📈 Progress tracking and analytics</li>
+      <li>🎯 Risk level identification</li>
+      <li>📤 Export your results</li>
+    </ul>
+  </div>
+</div>
+{% endblock %}

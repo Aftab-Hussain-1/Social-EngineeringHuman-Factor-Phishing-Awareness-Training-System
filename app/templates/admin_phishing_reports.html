@@ -1,0 +1,470 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  .phishing-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    color: white;
+  }
+
+  .page-header {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 40px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.3);
+  }
+
+  .page-title {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .page-subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+  }
+
+  .stat-card {
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.2);
+    border: 1px solid rgba(0, 206, 201, 0.2);
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .stat-number {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: #00cec9;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .stat-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1em;
+    font-weight: 500;
+  }
+
+  .reports-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    padding: 40px;
+    border-radius: 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.15);
+    border: 1px solid rgba(0, 206, 201, 0.1);
+  }
+
+  .section-title {
+    font-size: 2em;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+    text-align: center;
+  }
+
+  .reports-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 30px;
+  }
+
+  .report-card {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid rgba(0, 206, 201, 0.2);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(15, 32, 39, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .report-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(15, 32, 39, 0.2);
+  }
+
+  .report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid rgba(0, 206, 201, 0.1);
+  }
+
+  .report-id {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9em;
+  }
+
+  .report-timestamp {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    font-weight: 500;
+  }
+
+  .report-field {
+    margin-bottom: 15px;
+  }
+
+  .field-label {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .field-value {
+    color: #7f8c8d;
+    font-size: 1em;
+    line-height: 1.4;
+    word-break: break-all;
+  }
+
+  .url-link {
+    color: #00cec9;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+
+  .url-link:hover {
+    color: #2c3e50;
+    text-decoration: underline;
+  }
+
+  .status-badge {
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 0.8em;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .status-pending {
+    background: #ffc107;
+    color: #212529;
+  }
+
+  .status-verified {
+    background: #dc3545;
+    color: white;
+  }
+
+  .status-false_positive {
+    background: #28a745;
+    color: white;
+  }
+
+  .report-actions {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(0, 206, 201, 0.1);
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .action-btn {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 20px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .btn-verify {
+    background: #dc3545;
+    color: white;
+  }
+
+  .btn-verify:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+  }
+
+  .btn-false {
+    background: #28a745;
+    color: white;
+  }
+
+  .btn-false:hover {
+    background: #218838;
+    transform: translateY(-2px);
+  }
+
+  .btn-details {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: white;
+  }
+
+  .btn-details:hover {
+    background: linear-gradient(135deg, #203a43, #2c5364);
+    transform: translateY(-2px);
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 40px;
+    flex-wrap: wrap;
+  }
+
+  .pagination a,
+  .pagination span {
+    padding: 12px 18px;
+    text-decoration: none;
+    border-radius: 25px;
+    background: linear-gradient(135deg, #203a43 0%, #2c5364 100%);
+    color: white;
+    transition: all 0.3s ease;
+    font-weight: 600;
+    border: 1px solid rgba(0, 206, 201, 0.2);
+  }
+
+  .pagination a:hover {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(15, 32, 39, 0.3);
+  }
+
+  .pagination .current {
+    background: linear-gradient(135deg, #0f2027, #203a43);
+    color: #00cec9;
+    box-shadow: 0 5px 15px rgba(15, 32, 39, 0.3);
+  }
+
+  .pagination .disabled {
+    color: rgba(255, 255, 255, 0.5);
+    background: rgba(32, 58, 67, 0.5);
+    cursor: not-allowed;
+  }
+
+  .no-data {
+    text-align: center;
+    padding: 60px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 206, 201, 0.1);
+    box-shadow: 0 10px 30px rgba(15, 32, 39, 0.15);
+  }
+
+  .no-data p {
+    font-size: 1.3em;
+    color: #7f8c8d;
+    margin: 0;
+  }
+
+  @media (max-width: 768px) {
+    .phishing-container {
+      padding: 20px 10px;
+    }
+    
+    .page-title {
+      font-size: 2em;
+    }
+    
+    .reports-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .report-header {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+    
+    .report-actions {
+      justify-content: center;
+    }
+  }
+</style>
+
+<div class="phishing-container">
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1 class="page-title">🚨 Phishing Reports</h1>
+    <p class="page-subtitle">Monitor and manage reported phishing attempts</p>
+  </div>
+
+  <!-- Statistics Cards -->
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span class="stat-number">{{ reports.total }}</span>
+      <div class="stat-label">Total Reports</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ reports.items | selectattr('status', 'equalto', 'pending') | list | length }}</span>
+      <div class="stat-label">Pending Review</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ reports.items | selectattr('status', 'equalto', 'verified') | list | length }}</span>
+      <div class="stat-label">Verified Threats</div>
+    </div>
+    <div class="stat-card">
+      <span class="stat-number">{{ reports.items | selectattr('status', 'equalto', 'false_positive') | list | length }}</span>
+      <div class="stat-label">False Positives</div>
+    </div>
+  </div>
+
+  {% if reports.items %}
+  <!-- Reports Section -->
+  <div class="reports-section">
+    <h2 class="section-title">📋 Recent Reports</h2>
+    
+    <div class="reports-grid">
+      {% for report in reports.items %}
+      <div class="report-card">
+        <div class="report-header">
+          <div class="report-id">ID: {{ report.id }}</div>
+          <div class="report-timestamp">{{ report.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">🌐 URL</span>
+          <div class="field-value">
+            <a href="{{ report.url }}" target="_blank" class="url-link">
+              {{ report.url }}
+            </a>
+          </div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">🏠 Domain</span>
+          <div class="field-value">{{ report.domain }}</div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">📄 Title</span>
+          <div class="field-value">{{ report.title or 'N/A' }}</div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">👤 Reporter</span>
+          <div class="field-value">
+            {% if report.user %}
+              {{ report.user.username }}
+            {% else %}
+              Anonymous
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">📋 Details</span>
+          <div class="field-value">{{ report.details or 'No additional details provided' }}</div>
+        </div>
+
+        <div class="report-field">
+          <span class="field-label">🔍 Status</span>
+          <div class="field-value">
+            <span class="status-badge status-{{ report.status }}">
+              {{ report.status.replace('_', ' ').title() }}
+            </span>
+          </div>
+        </div>
+
+        <div class="report-actions">
+          {% if report.status == 'pending' %}
+            <a href="{{ url_for('main.update_report_status', id=report.id, status='verified') }}" 
+               class="action-btn btn-verify">✓ Verify Threat</a>
+            <a href="{{ url_for('main.update_report_status', id=report.id, status='false_positive') }}" 
+               class="action-btn btn-false">✗ False Positive</a>
+          {% endif %}
+          <button onclick="showDetails({{ report.id }})" class="action-btn btn-details">👁️ View Details</button>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination">
+    {% if reports.has_prev %}
+      <a href="{{ url_for('main.phishing_reports', page=1) }}">⏮️ First</a>
+      <a href="{{ url_for('main.phishing_reports', page=reports.prev_num) }}">⬅️ Previous</a>
+    {% else %}
+      <span class="disabled">⏮️ First</span>
+      <span class="disabled">⬅️ Previous</span>
+    {% endif %}
+
+    {% for page_num in reports.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+      {% if page_num %}
+        {% if page_num != reports.page %}
+          <a href="{{ url_for('main.phishing_reports', page=page_num) }}">{{ page_num }}</a>
+        {% else %}
+          <span class="current">{{ page_num }}</span>
+        {% endif %}
+      {% else %}
+        <span>…</span>
+      {% endif %}
+    {% endfor %}
+
+    {% if reports.has_next %}
+      <a href="{{ url_for('main.phishing_reports', page=reports.next_num) }}">Next ➡️</a>
+      <a href="{{ url_for('main.phishing_reports', page=reports.pages) }}">Last ⏭️</a>
+    {% else %}
+      <span class="disabled">Next ➡️</span>
+      <span class="disabled">Last ⏭️</span>
+    {% endif %}
+  </div>
+
+  {% else %}
+  <div class="no-data">
+    <p>📭 No phishing reports found.</p>
+  </div>
+  {% endif %}
+</div>
+
+<script>
+function showDetails(reportId) {
+  fetch(`/api/report-details/${reportId}`)
+    .then(response => response.json())
+    .then(data => {
+      alert(`📊 Report Details:\n\n🌐 URL: ${data.url}\n🏠 Domain: ${data.domain}\n📄 Title: ${data.title}\n📋 Details: ${data.details}\n⏰ Timestamp: ${data.timestamp}`);
+    })
+    .catch(() => {
+      alert('❌ Failed to load report details');
+    });
+}
+</script>
+{% endblock %}

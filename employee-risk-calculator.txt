@@ -1,0 +1,21 @@
+employee-risk-calculator/
+├── app/
+│   ├── __init__.py
+│   ├── models.py
+│   ├── routes.py
+│   ├── templates/
+│   │   ├── base.html
+│   │   ├── login.html
+│   │   ├── register.html
+│   │   ├── dashboard.html
+│   │   ├── quiz.html
+│   │   ├── admin_dashboard.html
+│   │   ├── admin_users.html
+│   │   ├── admin_questions.html
+│   │   ├── admin_add_question.html
+│   │   └── admin_edit_question.html
+│   └── static/
+│       └── style.css
+├── run.py
+├── requirements.txt
+├── venv/

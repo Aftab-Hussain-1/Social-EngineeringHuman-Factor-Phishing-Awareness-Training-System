@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+  h2 {
+    text-align: center;
+    color: #00cec9;
+    margin-bottom: 30px;
+  }
+
+  .detail-container {
+    background: rgba(45, 52, 54, 0.8);
+    padding: 30px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    border-left: 4px solid #00cec9;
+  }
+
+  .detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #34495e;
+  }
+
+  .detail-title {
+    color: #00cec9;
+    font-size: 1.5em;
+    margin: 0;
+  }
+
+  .detail-meta {
+    color: #ecf0f1;
+    font-size: 0.9em;
+  }
+
+  .detail-content {
+    color: #ecf0f1;
+    line-height: 1.6;
+    margin-bottom: 30px;
+  }
+
+  .detail-field {
+    margin-bottom: 15px;
+  }
+
+  .detail-label {
+    color: #00cec9;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .detail-value {
+    color: #ecf0f1;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 10px;
+    border-radius: 5px;
+    word-break: break-word;
+  }
+
+  .risk-score {
+    font-size: 2em;
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+  }
+
+  .risk-low { 
+    color: #2ecc71; 
+    background: rgba(46, 204, 113, 0.1);
+  }
+  
+  .risk-medium { 
+    color: #f39c12; 
+    background: rgba(243, 156, 18, 0.1);
+  }
+  
+  .risk-high { 
+    color: #e74c3c; 
+    background: rgba(231, 76, 60, 0.1);
+  }
+
+  .behavior-type {
+    background: rgba(0, 206, 201, 0.2);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 1em;
+    display: inline-block;
+    margin-bottom: 10px;
+  }
+
+  .back-button {
+    background: rgba(0, 206, 201, 0.8);
+    color: #ecf0f1;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    margin-top: 20px;
+  }
+
+  .back-button:hover {
+    background: rgba(0, 206, 201, 1);
+  }
+</style>
+
+<h2>⚠️ Risk Behavior Details</h2>
+
+<div class="detail-container">
+  <div class="detail-header">
+    <div>
+      <h3 class="detail-title">{{ behavior.behavior_type.replace('_', ' ').title() }}</h3>
+      <div class="detail-meta">Reported on {{ behavior.timestamp.strftime('%Y-%m-%d %H:%M') }}</div>
+    </div>
+    <div>
+      <span class="behavior-type">{{ behavior.behavior_type.replace('_', ' ').title() }}</span>
+    </div>
+  </div>
+
+  <div class="detail-content">
+    <div class="detail-field">
+      <div class="detail-label">User</div>
+      <div class="detail-value">{{ behavior.user.username if behavior.user else 'Anonymous' }}</div>
+    </div>
+
+    <div class="detail-field">
+      <div class="detail-label">Domain</div>
+      <div class="detail-value">{{ behavior.domain or 'N/A' }}</div>
+    </div>
+
+    <div class="detail-field">
+      <div class="detail-label">Details</div>
+      <div class="detail-value">{{ behavior.details or 'No details provided' }}</div>
+    </div>
+
+    <div class="risk-score {% if behavior.risk_score >= 40 %}risk-high{% elif behavior.risk_score >= 20 %}risk-medium{% else %}risk-low{% endif %}">
+      Risk Score: {{ behavior.risk_score }}
+    </div>
+  </div>
+
+  <a href="{{ url_for('main.risk_behaviors', user=behavior.user_id) }}" class="back-button">
+    <i class="fas fa-arrow-left"></i> Back to Risk Behaviors
+  </a>
+</div>
+
+{% endblock %}
